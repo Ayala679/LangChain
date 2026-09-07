@@ -1,0 +1,6 @@
+langchain
+langchain-google-genai
+langchain-tavily
+langgraph
+python-dotenv
+gradio>=6.0
