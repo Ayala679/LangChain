@@ -1,6 +1,8 @@
 # 🧭 Source Scout
 
-An AI-powered research assistant that scouts the web for information sources on any topic, then lets **you** decide which sources to keep — powered by LangChain, LangGraph, Tavily, and a Gradio UI.
+An AI-powered research assistant that scouts the web for information sources on any topic, then lets **you** decide which sources to keep — powered by LangChain, LangGraph, Tavily, Google Gemini, and a Gradio UI.
+
+![Source Scout — the web UI after a search, showing the found sources and the keep/reject controls](assets/screenshot.png)
 
 ---
 
@@ -154,11 +156,11 @@ python app.py
 
 | Step | What happens |
 |---|---|
-| 1 | User types a research topic and clicks **🔍 Search** |
-| 2 | Agent searches the web; chat shows a loading message |
-| 3 | Sources appear in the chat; all sources are pre-checked in a **CheckboxGroup** |
-| 4a — Approve | Uncheck unwanted sources → click **✅ Approve Selected** → final list displayed |
-| 4b — Reject | Type feedback → click **🔄 Reject & Re-search** → agent searches again → back to step 3 |
+| 1 | Type a research topic and click **Find sources** |
+| 2 | Agent searches the web; the chat shows a loading message |
+| 3 | Sources appear in the chat; all are pre-checked in a **CheckboxGroup** |
+| 4a — Approve | Uncheck unwanted sources → click **Approve selected** → final list displayed |
+| 4b — Reject | Type feedback → click **Reject & search again** → agent searches again → back to step 3 |
 
 ---
 
