@@ -7,6 +7,7 @@ so they can be shared between layout and event handlers.
 
 import gradio as gr
 
+# Gradio 6 Chatbot is messages-only: a list of {"role", "content"} dicts.
 chatbot = gr.Chatbot(label="Research thread", height=520)
 
 topic_input = gr.Textbox(

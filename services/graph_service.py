@@ -42,6 +42,27 @@ _filter_llm = ChatGoogleGenerativeAI(
 )
 
 
+def _as_text(content) -> str:
+    """
+    Flatten a message's content to plain text.
+
+    Gemini returns ``content`` as a list of blocks
+    (e.g. ``[{"type": "text", "text": "..."}]``), while OpenAI returns a plain
+    string. Downstream code (parsing, the chat UI) expects a string.
+    """
+    if isinstance(content, str):
+        return content
+    if isinstance(content, list):
+        parts = []
+        for block in content:
+            if isinstance(block, str):
+                parts.append(block)
+            elif isinstance(block, dict) and "text" in block:
+                parts.append(block["text"])
+        return "\n".join(p for p in parts if p)
+    return str(content)
+
+
 # ── Node 1 — Search ───────────────────────────────────────────────────────────
 def search_node(state: AgentState) -> dict:
     feedback = state.get("feedback")
@@ -63,7 +84,7 @@ def search_node(state: AgentState) -> dict:
         "messages": [HumanMessage(content=prompt)]
     })
 
-    return {"sources": result["messages"][-1].content, "feedback": None}
+    return {"sources": _as_text(result["messages"][-1].content), "feedback": None}
 
 
 # ── Node 2 — Human-in-the-Loop ────────────────────────────────────────────────
@@ -113,7 +134,7 @@ def finalize_node(state: AgentState) -> dict:
         filtered = _filter_llm.invoke([HumanMessage(content=filter_prompt)])
         final_answer = (
             f"✅ **Selected sources** for topic: *{state['topic']}*\n\n"
-            + filtered.content
+            + _as_text(filtered.content)
         )
 
     return {"final_answer": final_answer}
